@@ -39,14 +39,13 @@ class UsersController < ApplicationController
           @user.provider_uid = env["omniauth.auth"]["uid"]
           if @user.save
             session[:user] = @user.id
-            redirect_to "/users/show"
           else
             flash[:notice] = "Los datos no se pudieron guardar."
-            redirect_to "/users/show"
+            redirect_to "/"
           end
         else
           session[:user] = @user.id
-        redirect_to "/users/show"
+          redirect_to "/users/show"
         end
       elsif params[:error]
         render plain: "#{params[:error]} #{params[:error_reason]}", content_type: "application/plain"
@@ -63,6 +62,7 @@ class UsersController < ApplicationController
         # Se le asigna el valor de la busqueda a la variable de instancia.  
         @user = User.find(session[:user])
       end
+      render "/users/show"
   end
 
   def update
