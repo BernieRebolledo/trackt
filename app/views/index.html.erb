@@ -1,17 +1,7 @@
 <h1>Hola mundo!</h1>
-<a href="/auth/twitter" class="btn btn-social btn-twitter" style="width:100%;text-align:center">
-	<i class="fa fa-twitter"></i>Inicia con Twitter
-</a><br><br>
-<%if @user %>
-	<%if @user.image %>
-		<img src="<%=@user.image%>" class="img-circle avatar" alt="">
-	<%else%>
-		<img src="../assets/user.png" class="img-circle avatar" alt="">
-	<%end%>
-	
-	<h2><%=@user.name%></h2>
-	
-	
-		
-<%end%>
-<a class="btn btn-danger" href="/signout">Cerrar Sesión</a>	
+<% if @user %>
+  Welcome <%= @user.name %>!
+  <%= link_to "Sign Out", signout_path %>
+<% else %>
+  <%= link_to "Sign in with Twitter", "/auth/twitter" %>
+<% end %>
