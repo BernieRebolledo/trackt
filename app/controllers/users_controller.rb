@@ -39,14 +39,14 @@ class UsersController < ApplicationController
           @user.provider_uid = env["omniauth.auth"]["uid"]
           if @user.save
             session[:user] = @user.id
-            redirect_to "/users/profile"
+            redirect_to "/users/show"
           else
             flash[:notice] = "Los datos no se pudieron guardar."
-            redirect_to "/"
+            redirect_to "/users/show"
           end
         else
           session[:user] = @user.id
-        redirect_to "/users/profile"
+        redirect_to "/users/show"
         end
       elsif params[:error]
         render plain: "#{params[:error]} #{params[:error_reason]}", content_type: "application/plain"
@@ -55,7 +55,14 @@ class UsersController < ApplicationController
       end
   end
 
-  def read
+  # Vista del perfil de usuario
+  def show
+    # Compruebo si existe una sesión de usuario.
+      if session[:user]
+      # Busco en la tabla de usuarios uno con el id de esa sesión existente.
+        # Se le asigna el valor de la busqueda a la variable de instancia.  
+        @user = User.find(session[:user])
+      end
   end
 
   def update

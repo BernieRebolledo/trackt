@@ -1,14 +1,8 @@
 Rails.application.routes.draw do
-  get 'users/index'
 
-  get 'users/create'
-
-  get 'users/read'
-
-  get 'users/update'
-
-  get 'users/delete'
-
+  resources :users
+  get "/signout" => "users#delete"
+  get "/auth/:provider/callback" => "users#connect"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
