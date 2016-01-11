@@ -1,7 +1,39 @@
+<%if flash[:notice]%>
+	<div>
+	  <%= flash[:notice] %></a>
+	</div>
+<%end%>
 <h1>Hola mundo!</h1>
 <% if @user %>
   Welcome <%= @user.name %>!
-  <%= link_to "Sign Out", signout_path %>
+ 	<br>
+ 	<%= @user.email %> <br>
+  <br>
+ 	<%= link_to "Profile", "/users/show" %> <br>
+  <%= link_to "Sign Out", "/signout" %>
 <% else %>
   <%= link_to "Sign in with Twitter", "/auth/twitter" %>
+  <br>
+  <%= link_to "Sign in with Facebook", "/auth/facebook" %>
+  <br>
+  <%= form_tag("/users", method: "post", :class => "form-horizontal") do %>
+	<div class="form-group">
+		<div class="input-group margin-bottom-sm">
+		<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+		<input class="form-control" type="text" name="user[name]" placeholder="Nombre" required>
+		</div>	
+		<div class="input-group margin-bottom-sm">
+		<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+		<input class="form-control" type="email" name="user[email]" placeholder="Email" required>
+		</div>
+		<div class="input-group">
+		<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+		<input class="form-control" name="user[password]" type="password" placeholder="Contraseña" required>
+		</div>	
+					  
+	</div>
+	<div class="text-center margin-vertical">
+		<button type="submit" class="btn btn-primary">Enviar</button>
+	</div>
+	<% end %>
 <% end %>

@@ -1,2 +1,11 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<h1>Hola mundo!</h1>
+<% if @user %>
+  Welcome <%= @user.name %>!
+  <%= link_to "Sign Out", "/signout" %>
+<% else %>
+  <%= link_to "Sign in with Twitter", "/auth/twitter" %>
+  <br>
+  <%= link_to "Sign in with Facebook", "/auth/facebook" %>
+  <br>
+  <%= link_to "Sign Out", "/signout" %>
+<% end %>

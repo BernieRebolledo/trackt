@@ -1,0 +1,13 @@
+<%if flash[:notice]%>
+	<div>
+	  <%= flash[:notice] %></a>
+	</div>
+<%end%>
+<h1>Users#show</h1>
+<h1>Hola mundo!</h1>
+<% if @user %>
+  Welcome <%= @user.name %>!
+ 	<br>
+ 	<%= @user.image %> <br>
+  <%= link_to "Sign Out", "/signout" %>  
+<% end %>

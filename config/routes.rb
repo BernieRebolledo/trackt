@@ -3,11 +3,13 @@ Rails.application.routes.draw do
   resources :users
   get "/signout" => "users#delete"
   get "/auth/:provider/callback" => "users#connect"
+  # post "/users/show" => "users#show"
+  # get '/auth/:provider/callback', to: 'users#connect', as: 'callback'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'application#index'
+  root 'users#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
