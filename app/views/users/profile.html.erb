@@ -9,7 +9,7 @@
 <h1>Welcome <%= @user.name %>!</h1>
  	<br>
  	<%= @user.email %>
- 	<img src="<%= @user.image %>"> <br>
+ 	<img src="<%= @user.image %>" style="border-radius: 50%;width:150px"> <br>
   <%= link_to "Sign Out", "/signout" %>
   <%= link_to "New Task", "/tasks" %>
 <% end %>

@@ -19,10 +19,10 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     @task.user_id = session[:user]
     if @task.save
-      flash[:notice_success] = "La tarea ha sido creada."
+      flash[:notice_success] = "Task created"
       redirect_to "/tasks"
     else
-      flash[:notice_fail] = "La tarea no se pudo crear intenta de nuevo"
+      flash[:notice_fail] = "Task is not created, try again!"
       redirect_to "/tasks"
     end
     # if @user.save
@@ -50,6 +50,10 @@ class TasksController < ApplicationController
 
   def update
   end
+  # def stop()
+    
+    
+  # end
 
   # def time
   #     if session[:user]
@@ -86,6 +90,6 @@ class TasksController < ApplicationController
 
   #Método para requerir los parámetros de la creación de usuario sin proveedor.
   def task_params
-    params.require(:task).permit(:name, :description, :stime, :ftime, :time)
+    params.require(:task).permit(:name, :description, :status, :hours, :mins, :secs, :time)
   end	
 end
