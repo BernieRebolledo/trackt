@@ -8,7 +8,7 @@ class TasksController < ApplicationController
         @user = User.find(session[:user])
       end
       # Renderizo la vista index. /views/tasks/index.html.erb
-      render "index"
+      render "/tasks/index"
   end
 
   # Método para guardar datos del usuario nuevo.
@@ -36,13 +36,13 @@ class TasksController < ApplicationController
 
   # Vista del perfil de usuario
   def show   
-    # Compruebo si existe una sesión de usuario.
-      if session[:user]
-      # Busco en la tabla de usuarios uno con el id de esa sesión existente.
-        # Se le asigna el valor de la busqueda a la variable de instancia.  
-        @user = User.find(session[:user])
-      end
-      render "profile"
+    # # Compruebo si existe una sesión de usuario.
+    #   if session[:user]
+    #   # Busco en la tabla de usuarios uno con el id de esa sesión existente.
+    #     # Se le asigna el valor de la busqueda a la variable de instancia.  
+    #     @user = User.find(session[:user])
+    #   end
+    #   render "/taks/index"
   end
 
 
