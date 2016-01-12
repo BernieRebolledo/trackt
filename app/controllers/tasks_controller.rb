@@ -7,6 +7,7 @@ class TasksController < ApplicationController
         # Se le asigna el valor de la busqueda a la variable de instancia.
         @user = User.find(session[:user])
       end
+
       # Renderizo la vista index. /views/tasks/index.html.erb
       render "/tasks/index"
   end
@@ -42,6 +43,7 @@ class TasksController < ApplicationController
         # Se le asigna el valor de la busqueda a la variable de instancia.  
         @user = User.find(session[:user])
       end
+      @task = Task.all(:order => 'created_at ASC')
     render "/tasks/index"
   end
 
@@ -49,30 +51,30 @@ class TasksController < ApplicationController
   def update
   end
 
-  def time
-      if session[:user]
-        # Busco en la tabla de usuarios uno con el id de esa sesión existente.
-        # Se le asigna el valor de la busqueda a la variable de instancia.
-        @user = User.find(session[:user])
-      end
-      # @task = Task.find(@task.id)
-      @stime = @task.created_at
-      @ftime = Time.zone.now
-      @sec_diff = (@stime-@ftime).to_i.abs
-      @hours = @sec_diff / 3600
-      @sec_diff -= @hours * 3600
-      @mins = @sec_diff / 60
-      @sec_diff -= @mins * 60
-      @secs = @sec_diff
-      puts "========================="
-      puts
-      printf "%02dh:%02dm:%02ds", @hours, @mins, @secs
-      puts
-      puts "========================="
-      puts @stime
-      puts @ftime
-      render "/tasks/index"
-  end
+  # def time
+  #     if session[:user]
+  #       # Busco en la tabla de usuarios uno con el id de esa sesión existente.
+  #       # Se le asigna el valor de la busqueda a la variable de instancia.
+  #       @user = User.find(session[:user])
+  #     end
+  #     # @task = Task.find(@task.id)
+  #     @stime = @task.created_at
+  #     @ftime = Time.zone.now
+  #     @sec_diff = (@stime-@ftime).to_i.abs
+  #     @hours = @sec_diff / 3600
+  #     @sec_diff -= @hours * 3600
+  #     @mins = @sec_diff / 60
+  #     @sec_diff -= @mins * 60
+  #     @secs = @sec_diff
+  #     puts "========================="
+  #     puts
+  #     printf "%02dh:%02dm:%02ds", @hours, @mins, @secs
+  #     puts
+  #     puts "========================="
+  #     puts @stime
+  #     puts @ftime
+  #     render "/tasks/index"
+  # end
 
   #Método para cerrar la sesión del usuario.
   def delete
