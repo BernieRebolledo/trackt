@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :users
+  resources :users, :tasks
   get "/signout" => "users#delete"
   get "/auth/:provider/callback" => "users#connect"
   post "/login" => "users#login", as: "login"

@@ -6,6 +6,7 @@ class CreateTasks < ActiveRecord::Migration
       t.string :ftime
       t.string :time
       t.string :description
+      t.references :user, index: true
 
       t.timestamps null: false
     end

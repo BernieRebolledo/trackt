@@ -7,8 +7,8 @@ class TasksController < ApplicationController
         # Se le asigna el valor de la busqueda a la variable de instancia.
         @user = User.find(session[:user])
       end
-      # Renderizo la vista index. /views/index.html.erb
-      render "/index"
+      # Renderizo la vista index. /views/tasks/index.html.erb
+      render "index"
   end
 
   # Método para guardar datos del usuario nuevo.
@@ -16,6 +16,14 @@ class TasksController < ApplicationController
     # Creo una variable de instancia asignandole el valor de un nuevo usuario.
     # Y pasandole los parametros que admitimos para un usuario.
     @task = Task.new(task_params)
+    @task.user_id = session[:user]
+    if @task.save
+      flash[:notice_success] = "La tarea ha sido creada."
+      redirect_to "/tasks"
+    else
+      flash[:notice_fail] = "La tarea no se pudo crear intenta de nuevo"
+      redirect_to "/tasks"
+    end
     # if @user.save
     #   session[:user] = @user.id
     #   flash[:notice] = "Su usuario se ha creado."

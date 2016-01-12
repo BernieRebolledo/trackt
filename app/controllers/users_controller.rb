@@ -65,9 +65,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def update
-  end
-
   #Método para cerrar la sesión del usuario.
   def delete
     session[:user] = nil

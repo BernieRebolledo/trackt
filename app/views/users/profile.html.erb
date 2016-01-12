@@ -5,9 +5,11 @@
 <%end%>
 
 <% if @user %>
+
 <h1>Welcome <%= @user.name %>!</h1>
  	<br>
  	<%= @user.email %>
  	<img src="<%= @user.image %>"> <br>
-  <%= link_to "Sign Out", "/signout" %>  
+  <%= link_to "Sign Out", "/signout" %>
+  <%= link_to "New Task", "/tasks" %>
 <% end %>
