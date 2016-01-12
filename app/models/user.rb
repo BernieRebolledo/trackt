@@ -8,8 +8,6 @@ class User < ActiveRecord::Base
 			)
 		user
 	end
-	# validates :has_secure_password, presence: false
-	# validates :username, presence: true, on: :create, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\Z/ }, length: { minimum: 4 }
 	validates :email, presence: true, uniqueness: true, unless: :provider_uid?
 	validates :name, presence: true, on: :create
 	validates :password, presence: true, length: { minimum: 4}, unless: :provider_uid?
