@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'omniauth-facebook', '~> 2.0.1'
 gem 'omniauth-twitter', '~> 1.2.0'
+gem 'rails_12factor'
 
 group :development, :test do 
   gem 'byebug'
