@@ -7,35 +7,27 @@ class TasksController < ApplicationController
         # Se le asigna el valor de la busqueda a la variable de instancia.
         @user = User.find(session[:user])
       end
-
       # Renderizo la vista index. /views/tasks/index.html.erb
       render "/tasks/index"
   end
 
-  # Método para guardar datos del usuario nuevo.
+  # Método para guardar datos de la tarea nueva.
   def create
-    # Creo una variable de instancia asignandole el valor de un nuevo usuario.
-    # Y pasandole los parametros que admitimos para un usuario.
+    # Creo una variable de instancia asignandole el valor de una tarea nueva
+    # Y pasandole los parametros que admitimos para esta.
     @task = Task.new(task_params)
+    # Le asigno la tarea al usuario en sesión
     @task.user_id = session[:user]
     if @task.save
-      flash[:notice_success] = "Task created"
+      flash[:notice] = "Task created"
       redirect_to "/tasks"
     else
-      flash[:notice_fail] = "Task is not created, try again!"
+      flash[:notice] = "Task is not created, try again!"
       redirect_to "/tasks"
     end
-    # if @user.save
-    #   session[:user] = @user.id
-    #   flash[:notice] = "Su usuario se ha creado."
-    #   redirect_to "/users/show"
-    # else
-    #   flash[:notice] = "No se pudo crear el usuario, este correo ya está en uso!!"
-    #   render "/index"
-    # end
   end
 
-  # Vista del perfil de usuario
+  # Vista del perfil de tareas
   def show   
     # # Compruebo si existe una sesión de usuario.
       if session[:user]
@@ -43,46 +35,20 @@ class TasksController < ApplicationController
         # Se le asigna el valor de la busqueda a la variable de instancia.  
         @user = User.find(session[:user])
       end
-      @task = Task.all(:order => 'created_at ASC')
-    render "/tasks/index"
+      render "/tasks/index"
   end
 
 
   def update
     redirect_to "/tasks"
   end
+
+  #Método para finalizar el tiempo de las tareas cambiando el valor de status a true.
   def stop
     @task = Task.find(params[:id])
     @task.update_attributes(status: true)
-    @task.update_attributes(time: true)
-    redirect_to tasks_path
-    
+    redirect_to tasks_path  
   end
-
-  # def time
-  #     if session[:user]
-  #       # Busco en la tabla de usuarios uno con el id de esa sesión existente.
-  #       # Se le asigna el valor de la busqueda a la variable de instancia.
-  #       @user = User.find(session[:user])
-  #     end
-  #     # @task = Task.find(@task.id)
-  #     @stime = @task.created_at
-  #     @ftime = Time.zone.now
-  #     @sec_diff = (@stime-@ftime).to_i.abs
-  #     @hours = @sec_diff / 3600
-  #     @sec_diff -= @hours * 3600
-  #     @mins = @sec_diff / 60
-  #     @sec_diff -= @mins * 60
-  #     @secs = @sec_diff
-  #     puts "========================="
-  #     puts
-  #     printf "%02dh:%02dm:%02ds", @hours, @mins, @secs
-  #     puts
-  #     puts "========================="
-  #     puts @stime
-  #     puts @ftime
-  #     render "/tasks/index"
-  # end
 
   #Método para cerrar la sesión del usuario.
   def delete
@@ -92,7 +58,7 @@ class TasksController < ApplicationController
 
   private
 
-  #Método para requerir los parámetros de la creación de usuario sin proveedor.
+  #Método para requerir los parámetros de la creación de tareas.
   def task_params
     params.require(:task).permit(:name, :description, :status, :hours, :mins, :secs, :time)
   end	

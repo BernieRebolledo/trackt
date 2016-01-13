@@ -1,37 +1,39 @@
+<div style="position:absolute;top:10px;right:10px">
+	<%if flash[:notice]%>
+		<div>
+		  <%= flash[:notice] %></a>
+		</div>
+	<%end%>
+</div>
 <div style="width:40%;display:inline-table;margin:15px">
 	<!--Si existe usuario lo muestro-->
 	<% if @user %>
 		<h1><%= @user.name %></h1>
 		<%= @user.email %>
 		<img src="<%= @user.image %>" style="border-radius: 50%;width:150px"> <br>
-	  	<%= link_to "Sign Out", "/signout" %>
+		<h2>New Task</h2>
+		<!--Formulario para crear tareas-->
+		<%= form_tag("/tasks", method: "post", :class => "") do %>
+				<div class="">
+					<label for=""><small>Optional</small></label>
+					<input class="" type="text" name="task[name]" placeholder="Task name">
+				</div>	<br>
+				<div class="">
+					<label for=""><small>Optional</small></label>
+					<input class="" type="text" name="task[description]" placeholder="Task description">
+				</div> <br>
+				<div class="">
+					<label for=""><small>Optional</small></label>
+					<input type="number" name="task[hours]" min="0" max="999" placeholder="hh" style="width:35px"> :
+					<input type="number" name="task[mins]" min="0" max="59" placeholder="mm" style="width:35px"> :
+					<input type="number" name="task[secs]" min="0" max="59" placeholder="ss" style="width:35px">
+				</div> <br>
+			<div class="">
+				<button type="submit" class="">Create</button>
+			</div>
+		<% end %> 
+		<div style="margin-top:100px"><%= link_to "Sign Out", "/signout" %></div>
 	<% end %>
-
-	<h2>New Task</h2>
-	<!--Formulario para crear tareas-->
-	<%= form_tag("/tasks", method: "post", :class => "") do %>
-			<div class="">
-				<label for=""><small>Optional</small></label>
-				<input class="" type="text" name="task[name]" placeholder="Task name">
-			</div>	<br>
-			<div class="">
-				<label for=""><small>Optional</small></label>
-				<input class="" type="text" name="task[description]" placeholder="Task description">
-			</div> <br>
-			<div class="">
-				<label for=""><small>Optional</small></label>
-				<input type="number" name="task[hours]" min="0" placeholder="hh" style="width:35px"> :
-				<input type="number" name="task[mins]" min="0" max="59" placeholder="mm" style="width:35px"> :
-				<input type="number" name="task[secs]" min="0" max="59" placeholder="ss" style="width:35px">
-			</div> <br>
-		<div class="">
-			<button type="submit" class="">Create</button>
-		</div>
-	<% end %> 
-	<br>
-	<!--El tiempo de la tarea no se muestra en tiempo real, entonces cree un botón de refresh-->
-	
-	<br>
 </div>
 <!--Busco todas las tareas del usuario que se encuentra en sesión y la ordeno de la mas reciente a la mas antigua-->
 <% @task = Task.where(user_id:session[:user]).order('created_at DESC')%>
@@ -40,6 +42,7 @@
 	<!--Si el usuario tiene tareas empiezo las muestro-->
 	<% unless @task.empty? %>
 		<h3>Recent Tasks</h3>
+		<!--El tiempo de la tarea no se muestra en tiempo real, entonces cree un botón de refresh-->
 		<div style="text-align:right"><%= link_to "Refresh", "/tasks", :class => "button" %></div>
 			<table border="1" style="width:500px">
 				<tr>

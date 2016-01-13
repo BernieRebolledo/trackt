@@ -1,15 +1,18 @@
-<%if flash[:notice]%>
-	<div>
-	  <%= flash[:notice] %></a>
-	</div>
-<%end%>
+<div style="position:absolute;top:10px;right:10px">
+	<%if flash[:notice]%>
+		<div>
+		  <%= flash[:notice] %></a>
+		</div>
+	<%end%>
+</div>
 
-<% if @user %>
-
-<h1>Welcome <%= @user.name %>!</h1>
- 	<br>
- 	<%= @user.email %>
- 	<img src="<%= @user.image %>" style="border-radius: 50%;width:150px"> <br>
-  <%= link_to "Sign Out", "/signout" %>
-  <%= link_to "New Task", "/tasks" %>
-<% end %>
+<div style="width:100%;text-align:center;margin-top:100px">
+	<% if @user %>
+		<h1>Welcome <%= @user.name %>!</h1>
+	 	<br>
+	 	<%= @user.email %>
+	 	<img src="<%= @user.image %>" style="border-radius: 50%;width:150px"> <br> <br>
+		<%= link_to "New Task", "/tasks" %>
+		<div style="margin-top:200px"><%= link_to "Sign Out", "/signout" %></div>
+	<% end %>
+</div>
