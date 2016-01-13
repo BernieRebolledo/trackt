@@ -18,10 +18,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user] = @user.id
-      flash[:notice] = "Su usuario se ha creado."
+      flash[:notice] = "User created"
       redirect_to "/users/show"
     else
-      flash[:notice] = "No se pudo crear el usuario, este correo ya está en uso!!"
+      flash[:notice] = "Can't created user, email taken!"
       render "/index"
     end
   end
@@ -31,10 +31,10 @@ class UsersController < ApplicationController
     @user = User.find_or_create_from_auth_hash(auth_hash)
     if @user.save
       session[:user] = @user.id
-      flash[:notice] = 'Logueado satisfactoriamente'
+      flash[:notice] = 'Log successfully'
       redirect_to "/users/show"
     else
-      flash[:notice] = "Los datos no se pudieron guardar."
+      flash[:notice] = "Can't save information, Try again!"
       redirect_to "/index"
     end
   end
@@ -53,13 +53,13 @@ class UsersController < ApplicationController
   def login
     user = User.where(email: user_params[:email]).first
     if user && user.provider_uid
-      render plain: "Hola #{user.name} puedes indicar sesión por medio de facebook o twitter", content_type: "application/plain"
+      render plain: "Hi #{user.name} you can login from twitter", content_type: "application/plain"
     else  
       if user && user.password == user_params[:password]
         session[:user] = user.id
         redirect_to "/users/show"
       else
-        flash[:notice] = "Su correo o la contraseña no existen"
+        flash[:notice] = "Email or password incorrect"
         redirect_to "/"
       end
     end
