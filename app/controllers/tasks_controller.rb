@@ -49,11 +49,15 @@ class TasksController < ApplicationController
 
 
   def update
+    redirect_to "/tasks"
   end
-  # def stop()
+  def stop
+    @task = Task.find(params[:id])
+    @task.update_attributes(status: true)
+    @task.update_attributes(time: true)
+    redirect_to tasks_path
     
-    
-  # end
+  end
 
   # def time
   #     if session[:user]

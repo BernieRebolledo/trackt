@@ -4,7 +4,12 @@ Rails.application.routes.draw do
   get "/signout" => "users#delete"
   get "/auth/:provider/callback" => "users#connect"
   post "/login" => "users#login", as: "login"
-  post "/tasks/stop" => "tasks#stop"
+  resources :tasks do
+    member do
+       get :stop
+       put :stop
+    end 
+  end
   # post "/users/show" => "users#show"
   # get '/auth/:provider/callback', to: 'users#connect', as: 'callback'
   # The priority is based upon order of creation: first created -> highest priority.

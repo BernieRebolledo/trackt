@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20160109180640) do
     t.integer  "hours"
     t.integer  "mins"
     t.integer  "secs"
-    t.string   "time"
+    t.boolean  "time",        default: false
     t.string   "description"
     t.boolean  "status",      default: false
     t.integer  "user_id"

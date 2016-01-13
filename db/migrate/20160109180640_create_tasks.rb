@@ -5,7 +5,7 @@ class CreateTasks < ActiveRecord::Migration
       t.integer :hours
       t.integer :mins
       t.integer :secs
-      t.string :time
+      t.boolean :time, :default => false
       t.string :description
       t.boolean :status, :default => false
       t.references :user, index: true
