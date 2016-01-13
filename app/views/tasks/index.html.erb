@@ -1,0 +1,117 @@
+<div style="width:40%;display:inline-table;margin:15px">
+	<!--Si existe usuario lo muestro-->
+	<% if @user %>
+		<h1><%= @user.name %></h1>
+		<%= @user.email %>
+		<img src="<%= @user.image %>" style="border-radius: 50%;width:150px"> <br>
+	  	<%= link_to "Sign Out", "/signout" %>
+	<% end %>
+
+	<h2>New Task</h2>
+	<!--Formulario para crear tareas-->
+	<%= form_tag("/tasks", method: "post", :class => "") do %>
+			<div class="">
+				<label for=""><small>Optional</small></label>
+				<input class="" type="text" name="task[name]" placeholder="Task name">
+			</div>	<br>
+			<div class="">
+				<label for=""><small>Optional</small></label>
+				<input class="" type="text" name="task[description]" placeholder="Task description">
+			</div> <br>
+			<div class="">
+				<label for=""><small>Optional</small></label>
+				<input type="number" name="task[hours]" min="0" placeholder="hh" style="width:35px"> :
+				<input type="number" name="task[mins]" min="0" max="59" placeholder="mm" style="width:35px"> :
+				<input type="number" name="task[secs]" min="0" max="59" placeholder="ss" style="width:35px">
+			</div> <br>
+		<div class="">
+			<button type="submit" class="">Create</button>
+		</div>
+	<% end %> 
+	<br>
+	<!--El tiempo de la tarea no se muestra en tiempo real, entonces cree un botón de refresh-->
+	
+	<br>
+</div>
+<!--Busco todas las tareas del usuario que se encuentra en sesión y la ordeno de la mas reciente a la mas antigua-->
+<% @task = Task.where(user_id:session[:user]).order('created_at DESC')%>
+
+<div style="width:40%;display:inline-table;margin:15px">
+	<!--Si el usuario tiene tareas empiezo las muestro-->
+	<% unless @task.empty? %>
+		<h3>Recent Tasks</h3>
+		<div style="text-align:right"><%= link_to "Refresh", "/tasks", :class => "button" %></div>
+			<table border="1" style="width:500px">
+				<tr>
+				    <th>Task name</th>
+				    <th>Description</th> 
+				    <th>Time elapsed</th>
+				    <th>Status</th>
+				</tr>
+				<!--Muestro cada una de las tareas del usuario en sesión-->
+				<% @task.each do |x| %>
+					<tr>
+						<!--Si no hay nombre-->
+					  	<% if x.name.empty? %>
+					  		<% x.name = "Task nameless" %>
+					  	<% end %>
+					    <td><%= x.name %></td>
+
+					    <!--Si no hay descripción-->
+					    <% if x.description.empty? %>
+					  		<% x.description = "No description available" %>
+					  	<% end %>
+					    <td><%= x.description %></td>
+
+					    <!-- status=false, quiere decir que la tarea aún está en proceso -->
+					    <%if !x.status%>
+					    	<!-- Si el usuario asigna el tiempo a alguno o todos los campos, la tarea se da por finalizada -->
+					    	<%if x.hours || x.mins || x.secs %>
+					    		<!-- Si el usuario deja uno o dos campos en blanco, le asignamos 0 -->
+					    		<%if x.hours.nil? %>
+					    			<% x.hours = 0 %>
+					    		<% end %>
+					    		<%if x.mins.nil? %>
+					    			<% x.mins = 0 %>
+					    		<% end %>
+					    		<%if x.secs.nil? %>
+					    			<% x.secs = 0 %>
+					    		<% end %>
+					    		<!-- Se muestra el tiempo de la tarea -->
+					    		<td><%=sprintf '%02dh:%02dm:%02ds', x.hours, x.mins, x.secs%></td>
+					    		<!-- Se da por finalizada la tarea -->
+					    		<td><%= "Finished" %></td>
+							<% else %>
+								<!-- Si el usuario no asigno tiempo, se va calculando el tiempo transcurrido hasta que finalice la tarea -->
+							    <% @sec_diff = (x.created_at - Time.zone.now).to_i.abs %>
+								<% @hours = @sec_diff / 3600 %>
+								<% @sec_diff -= @hours * 3600 %>
+								<% @mins = @sec_diff / 60 %>
+								<% @sec_diff -= @mins * 60 %>
+								<% @secs = @sec_diff %>
+								<!-- Se muestra el tiempo de la tarea -->
+							    <td><%=sprintf '%02dh:%02dm:%02ds', @hours, @mins, @secs%></td>
+							    <!-- Tarera en proceso -->
+							    <td><%= "Running" %></td>
+							    <!-- Este link cambia el valor de status a true, time a true y finaliza la tarea -->
+							    <td><%= link_to "Stop", stop_task_path(x), method: :put %></td>
+							<% end %>
+						<% else %>
+							<!-- La tarea finaliza, se vuelve a calcular el tiempo transcurrido, solo se muestra el tiempo hasta la actualización de esta, lo cual coincide con el click de stop -->	
+							<% @sec_diff = (x.created_at - x.updated_at).to_i.abs %>
+							<% @hours = @sec_diff / 3600 %>
+							<% @sec_diff -= @hours * 3600 %>
+							<% @mins = @sec_diff / 60 %>
+							<% @sec_diff -= @mins * 60 %>
+							<% @secs = @sec_diff %>
+							<!-- Se muestra el tiempo final de la tarea -->
+						    <td><%=sprintf '%02dh:%02dm:%02ds', @hours, @mins, @secs%></td>
+						    <!-- Se da por finalizada la tarea -->
+							<td><%= "Finished" %></td>	
+						<% end %>
+					</tr>
+				<% end %>
+			</table>
+	<% end %>	
+</div>
+
