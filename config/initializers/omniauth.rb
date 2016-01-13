@@ -1,6 +1,6 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
 	
-	# provider :facebook, ENV["FB_ID"], ENV["FB_SECRET"], :image_size => "large"
+	# Datos para conectar con twitter
 
 	provider :twitter, ENV["TW_ID"], ENV["TW_SECRET"],
 	{
